@@ -32,16 +32,20 @@ console.log(await response.text());
 
       
       if (response.ok) {
-        const blob = await response.blob();
-        const link = document.createElement("a");
-        link.href = window.URL.createObjectURL(blob);
-        link.download = "resultado.xlsx";
-        link.click();
-        status.innerText = "✅ Arquivo baixado com sucesso!";
-      } else {
-        status.innerText = "❌ Erro ao processar os PDFs.";
-      }
-    };
+  const blob = await response.blob();
+
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'resultado.xlsx';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  window.URL.revokeObjectURL(url);
+
+  status.innerText = "✅ Arquivo baixado com sucesso!";
+}
+;
   </script>
 </body>
 </html>
