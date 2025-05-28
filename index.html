@@ -27,7 +27,10 @@
         method: "POST",
         body: formData
       });
+console.log(response.status);
+console.log(await response.text());
 
+      
       if (response.ok) {
         const blob = await response.blob();
         const link = document.createElement("a");
