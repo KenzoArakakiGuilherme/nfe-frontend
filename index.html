@@ -31,9 +31,8 @@ console.log(response.status);
 console.log(await response.text());
 
       
-      if (response.ok) {
+     if (response.ok) {
   const blob = await response.blob();
-
   const url = window.URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
@@ -42,9 +41,13 @@ console.log(await response.text());
   a.click();
   a.remove();
   window.URL.revokeObjectURL(url);
-
   status.innerText = "✅ Arquivo baixado com sucesso!";
+} else {
+  const errorText = await response.text();
+  console.log("Erro:", errorText);
+  status.innerText = "❌ Erro ao processar os PDFs.";
 }
+
 ;
   </script>
 </body>
