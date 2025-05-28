@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Leitor de Notas Fiscais</title>
+</head>
+<body>
+  <h2>Upload de Notas Fiscais em PDF</h2>
+  <form id="uploadForm">
+    <input type="file" name="arquivos" multiple accept=".pdf" required>
+    <button type="submit">Enviar e Baixar Excel</button>
+  </form>
+
+  <p id="status"></p>
+
+  <script>
+    const form = document.getElementById('uploadForm');
+    const status = document.getElementById('status');
+
+    form.onsubmit = async (e) => {
+      e.preventDefault();
+      status.innerText = "⏳ Processando PDFs...";
+
+      const formData = new FormData(form);
+
+      const response = await fetch("https://nfe-backend.onrender.com", {
+        method: "POST",
+        body: formData
+      });
+
+      if (response.ok) {
+        const blob = await response.blob();
+        const link = document.createElement("a");
+        link.href = window.URL.createObjectURL(blob);
+        link.download = "resultado.xlsx";
+        link.click();
+        status.innerText = "✅ Arquivo baixado com sucesso!";
+      } else {
+        status.innerText = "❌ Erro ao processar os PDFs.";
+      }
+    };
+  </script>
+</body>
+</html>
