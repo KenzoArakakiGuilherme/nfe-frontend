@@ -7,7 +7,7 @@
 <body>
   <h2>Upload de Notas Fiscais em PDF</h2>
   <form id="uploadForm">
-    <input type="file" name="arquivos" multiple accept=".pdf" required />
+    <input id="fileInput" type="file" name="arquivos" multiple accept=".pdf" required />
     <button type="submit">Enviar e Visualizar Dados</button>
   </form>
 
@@ -21,14 +21,22 @@
     const status = document.getElementById("status");
     const tabela = document.getElementById("tabelaResultado");
     const botaoBaixar = document.getElementById("baixarExcel");
+    const fileInput = document.getElementById("fileInput");
 
     form.onsubmit = async (e) => {
-      e.preventDefault();
+      e.preventDefault(); // ✅ Impede que a página seja recarregada
+
+      const formData = new FormData(form);
+
+      // Checa se algum arquivo foi selecionado
+      if (fileInput.files.length === 0) {
+        status.innerText = "⚠️ Nenhum arquivo selecionado.";
+        return;
+      }
+
       status.innerText = "⏳ Processando PDFs...";
       tabela.innerHTML = "";
       botaoBaixar.style.display = "none";
-
-      const formData = new FormData(form);
 
       try {
         const response = await fetch("https://nfe-backend.onrender.com/upload", {
