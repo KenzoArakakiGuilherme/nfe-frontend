@@ -38,13 +38,13 @@
 
         const dados = await response.json();
 
-        if (!Array.isArray(dados) || !dados.length) {
+        if (!dados.length) {
           status.innerText = "⚠️ Nenhum produto encontrado.";
           return;
         }
 
         // Construir tabela
-        let html = "<table border='1' cellpadding='5' cellspacing='0'><tr>";
+        let html = "<table border='1' cellpadding='5'><tr>";
         for (const key of Object.keys(dados[0])) {
           html += `<th>${key}</th>`;
         }
